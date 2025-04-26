@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,14 +46,6 @@ export default function Home() {
             <div className="aspect-square md:aspect-auto md:h-[500px] rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 p-2 shadow-xl">
               <div className="h-full w-full rounded-xl bg-background/80 backdrop-blur-md p-6 overflow-hidden">
                 <div className="h-full w-full bg-card rounded-lg shadow-sm border flex items-center justify-center">
-                  <Image
-                    src="/islamic-pattern9.png"
-                    alt="GooDojo HR Dashboard"
-                    width={600}
-                    height={400}
-                    className="rounded-lg object-cover"
-                    priority
-                  />
                   {/* If image is not available, use a fallback */}
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg">
                     <div className="text-center p-8">
