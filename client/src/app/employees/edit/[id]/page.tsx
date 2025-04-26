@@ -501,7 +501,7 @@ export default function EditEmployeePage() {
                                 Inactive
                               </FormLabel>
                             </FormItem>
-                            <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormItem className="flex items-center space-x-3 space-y-0 mb-2">
                               <FormControl>
                                 <RadioGroupItem value="on leave" />
                               </FormControl>
