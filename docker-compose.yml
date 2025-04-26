@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: goodojo-postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: test_GooDojo
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: goodojo-server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=test_GooDojo
+      - PORT=3000
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    command: >
+      sh -c "
+        npx sequelize-cli db:migrate &&
+        npx sequelize-cli db:seed:all &&
+        npm run dev
+      "
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: goodojo-client
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://server:3000 # For container-to-container communication
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:
+
+networks:
+  default:
+    name: goodojo-network
+    driver: bridge
