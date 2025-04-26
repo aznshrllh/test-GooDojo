@@ -45,12 +45,107 @@ export default function Home() {
           <div className="relative">
             <div className="aspect-square md:aspect-auto md:h-[500px] rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/20 p-2 shadow-xl">
               <div className="h-full w-full rounded-xl bg-background/80 backdrop-blur-md p-6 overflow-hidden">
-                <div className="h-full w-full bg-card rounded-lg shadow-sm border flex items-center justify-center">
-                  {/* If image is not available, use a fallback */}
-                  <div className="absolute inset-0 flex items-center justify-center rounded-lg">
+                <div className="h-full w-full bg-card rounded-lg shadow-sm border flex flex-col">
+                  {/* Dashboard Header */}
+                  <div className="border-b p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-7 w-7 rounded-md bg-primary flex items-center justify-center">
+                        <span className="text-primary-foreground font-semibold text-xs">
+                          GD
+                        </span>
+                      </div>
+                      <div className="font-medium">GooDojo Dashboard</div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-primary/10"></div>
+                      <div className="h-5 w-16 bg-muted rounded-md"></div>
+                    </div>
+                  </div>
+
+                  {/* Dashboard Content */}
+                  <div className="flex flex-1 p-4">
+                    {/* Sidebar */}
+                    <div className="hidden md:flex flex-col gap-2 w-40 border-r pr-4">
+                      {Array(6)
+                        .fill(0)
+                        .map((_, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <div
+                              className={`h-3 w-3 rounded-sm ${
+                                i === 0 ? "bg-primary" : "bg-muted"
+                              }`}
+                            ></div>
+                            <div
+                              className={`h-4 ${
+                                i === 0
+                                  ? "w-20 bg-muted/80"
+                                  : "w-16 bg-muted/50"
+                              } rounded-md`}
+                            ></div>
+                          </div>
+                        ))}
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="flex-1 flex flex-col gap-4 pl-0 md:pl-4">
+                      {/* Stats Row */}
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {Array(3)
+                          .fill(0)
+                          .map((_, i) => (
+                            <div key={i} className="border rounded-md p-3">
+                              <div className="h-3 w-1/2 bg-muted/50 rounded-md mb-2"></div>
+                              <div className="h-6 w-10 bg-muted/80 rounded-md"></div>
+                            </div>
+                          ))}
+                      </div>
+
+                      {/* Chart Area */}
+                      <div className="border rounded-md p-4 flex-1">
+                        <div className="h-4 w-1/4 bg-muted/50 rounded-md mb-4"></div>
+                        <div className="h-[120px] w-full bg-muted/20 rounded-md flex items-end px-4">
+                          {Array(7)
+                            .fill(0)
+                            .map((_, i) => {
+                              const height = [60, 40, 75, 50, 85, 45, 65][i];
+                              return (
+                                <div key={i} className="flex-1 mx-1">
+                                  <div
+                                    className={`h-[${height}px] bg-primary/60 rounded-t-sm`}
+                                  ></div>
+                                  <div className="h-2 w-full bg-muted/40 mt-2"></div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      </div>
+
+                      {/* Table */}
+                      <div className="border rounded-md p-4">
+                        <div className="h-4 w-1/3 bg-muted/50 rounded-md mb-3"></div>
+                        {Array(3)
+                          .fill(0)
+                          .map((_, i) => (
+                            <div
+                              key={i}
+                              className="flex items-center justify-between py-2 border-b"
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className="h-6 w-6 rounded-full bg-muted/60"></div>
+                                <div className="h-4 w-24 bg-muted/50 rounded-md"></div>
+                              </div>
+                              <div className="h-4 w-16 bg-muted/40 rounded-md"></div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Overlay Content */}
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/40 backdrop-blur-sm">
                     <div className="text-center p-8">
-                      <Users className="h-16 w-16 text-primary/40 mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold text-primary/60">
+                      <Users className="h-16 w-16 text-primary/80 mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-primary">
                         GooDojo HR Dashboard
                       </h3>
                       <p className="text-muted-foreground mt-2">
