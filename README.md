@@ -2,6 +2,10 @@
 
 Full-stack HR management system with Express.js backend and Next.js frontend.
 
+## Demo
+
+Watch the demo video: [YouTube Demo](https://youtu.be/8e8mjG8qdOU)
+
 ## Setup with Docker
 
 1. Clone the repository
