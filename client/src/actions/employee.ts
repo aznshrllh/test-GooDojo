@@ -1,13 +1,12 @@
 "use server";
 
-import { baseUrl } from "./helpers/baseUrl";
+import { baseUrl } from "@/helpers/baseUrl";
 import {
   AddEmployeeSkillData,
   ApiError,
   CreateEmployeeData,
   Employee,
-} from "./types";
-//Employee actions
+} from "../types";
 
 // Employee actions
 export async function getAllEmployees(): Promise<Employee[] | ApiError> {
