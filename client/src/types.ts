@@ -63,6 +63,12 @@ export interface Employee {
   JobPosition: JobPosition;
   Performances: Performance[];
   Skills: Skill[];
+  TalentPoolEmployee?: {
+    talent_pool_id: number;
+    employee_id: number;
+    createdAt: string;
+    updatedAt: string;
+  };
 }
 
 export interface ApiError {
@@ -124,6 +130,7 @@ export interface CreateSkillData {
   description: string;
 }
 
+//? PerformanceData
 export interface PerformanceWithEmployee extends Performance {
   Employee?: Employee;
 }
@@ -133,4 +140,31 @@ export interface CreatePerformanceData {
   evaluation_date: string;
   score: number;
   feedback: string;
+}
+
+//? TalentPoolData
+export interface TalentPool {
+  id: number;
+  candidate_name: string;
+  email: string;
+  phone: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TalentPoolWithEmployees extends TalentPool {
+  Employees?: Employee[];
+}
+
+export interface CreateTalentPoolData {
+  candidate_name: string;
+  email: string;
+  phone: string;
+  status: string;
+}
+
+export interface AddEmployeeToTalentPoolData {
+  talent_pool_id: number;
+  employee_id: number;
 }
