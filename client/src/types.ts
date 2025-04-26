@@ -123,3 +123,14 @@ export interface CreateSkillData {
   name: string;
   description: string;
 }
+
+export interface PerformanceWithEmployee extends Performance {
+  Employee?: Employee;
+}
+
+export interface CreatePerformanceData {
+  employee_id: number;
+  evaluation_date: string;
+  score: number;
+  feedback: string;
+}
