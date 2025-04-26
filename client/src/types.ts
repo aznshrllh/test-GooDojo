@@ -85,7 +85,6 @@ export interface AddEmployeeSkillData {
 }
 
 //? DepartmentData
-// Department types
 export interface Department {
   id: number;
   name: string;
@@ -98,4 +97,19 @@ export interface Department {
 export interface CreateDepartmentData {
   name: string;
   location: string;
+}
+
+//? JobPositionData
+export interface JobPosition {
+  id: number;
+  title: string;
+  department_id: number;
+  createdAt: string;
+  updatedAt: string;
+  Department?: Department;
+}
+
+export interface CreateJobPositionData {
+  title: string;
+  department_id: number;
 }

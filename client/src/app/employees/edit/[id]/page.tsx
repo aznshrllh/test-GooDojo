@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { getEmployeeById, updateEmployee } from "@/actions/employee";
+import { getAllDepartments } from "@/actions/department";
+import { getAllJobPositions } from "@/actions/jobPosition";
 import { Employee, Department, JobPosition } from "@/types";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -11,7 +13,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-// shadcn/ui components
 import {
   Card,
   CardContent,
@@ -116,20 +117,26 @@ export default function EditEmployeePage() {
 
         setEmployee(employeeResult);
 
-        // Fetch departments and positions
-        const departmentsResult = await fetch("/api/departments").then((res) =>
-          res.json()
-        );
-        const positionsResult = await fetch("/api/job-positions").then((res) =>
-          res.json()
-        );
+        // Fetch departments and positions using server actions
+        const [departmentsResult, positionsResult] = await Promise.all([
+          getAllDepartments(),
+          getAllJobPositions(),
+        ]);
 
-        if (departmentsResult && Array.isArray(departmentsResult)) {
+        if (!("message" in departmentsResult)) {
           setDepartments(departmentsResult);
+        } else {
+          toast.error(
+            `Failed to load departments: ${departmentsResult.message}`
+          );
         }
 
-        if (positionsResult && Array.isArray(positionsResult)) {
+        if (!("message" in positionsResult)) {
           setPositions(positionsResult);
+        } else {
+          toast.error(
+            `Failed to load job positions: ${positionsResult.message}`
+          );
         }
 
         // Populate the form with employee data
