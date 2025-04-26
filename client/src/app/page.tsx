@@ -48,15 +48,12 @@ export default function Home() {
               <div className="h-full w-full rounded-xl bg-background/80 backdrop-blur-md p-6 overflow-hidden">
                 <div className="h-full w-full bg-card rounded-lg shadow-sm border flex items-center justify-center">
                   <Image
-                    src="/dashboard-preview.png"
+                    src="/islamic-pattern9.png"
                     alt="GooDojo HR Dashboard"
                     width={600}
                     height={400}
-                    className="rounded-lg"
+                    className="rounded-lg object-cover"
                     priority
-                    // If you don't have an actual image, remove the Image component and use a placeholder:
-                    // placeholder="blur"
-                    // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA..."
                   />
                   {/* If image is not available, use a fallback */}
                   <div className="absolute inset-0 flex items-center justify-center rounded-lg">
