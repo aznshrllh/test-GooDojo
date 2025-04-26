@@ -107,12 +107,35 @@ export default function EmployeeDetailPage() {
   };
 
   const formatPerformanceScore = (score: number) => {
-    if (score >= 4.5) return { label: "Excellent", color: "bg-emerald-500" };
-    if (score >= 3.5) return { label: "Good", color: "bg-green-500" };
-    if (score >= 2.5) return { label: "Satisfactory", color: "bg-yellow-500" };
-    if (score >= 1.5)
-      return { label: "Needs Improvement", color: "bg-orange-500" };
-    return { label: "Poor", color: "bg-red-500" };
+    // Convert score from 0-5 scale to 0-100 scale for consistent styling
+    const scorePercent = (score / 100) * 100;
+
+    if (scorePercent >= 90) {
+      return {
+        label: "Excellent",
+        color: "bg-green-100 text-green-800 border border-green-200",
+        icon: "✓✓", // Double check mark for excellent
+      };
+    }
+    if (scorePercent >= 75) {
+      return {
+        label: "Good",
+        color: "bg-blue-100 text-blue-800 border border-blue-200",
+        icon: "✓", // Check mark for good
+      };
+    }
+    if (scorePercent >= 60) {
+      return {
+        label: "Satisfactory",
+        color: "bg-yellow-100 text-yellow-800 border border-yellow-200",
+        icon: "○", // Circle for satisfactory
+      };
+    }
+    return {
+      label: "Needs Improvement",
+      color: "bg-red-100 text-red-800 border border-red-200",
+      icon: "!", // Exclamation for needs improvement
+    };
   };
 
   return (
@@ -306,21 +329,81 @@ export default function EmployeeDetailPage() {
 
                   <TabsContent value="skills">
                     {employee.Skills && employee.Skills.length > 0 ? (
-                      <div className="space-y-4">
-                        {employee.Skills.map((skill) => (
-                          <Card key={skill.id}>
-                            <CardHeader className="pb-2">
-                              <CardTitle className="text-base font-medium">
-                                {skill.name}
-                              </CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                              <p className="text-sm text-muted-foreground">
-                                {skill.description}
-                              </p>
-                            </CardContent>
-                          </Card>
-                        ))}
+                      <div className="grid grid-cols-1 gap-4">
+                        {employee.Skills.map((skill) => {
+                          // Generate a color based on the skill name (for visual categorization)
+                          const getSkillColor = (name: string) => {
+                            const lowerName = name.toLowerCase();
+                            if (
+                              lowerName.includes("javascript") ||
+                              lowerName.includes("react") ||
+                              lowerName.includes("node") ||
+                              lowerName.includes("python") ||
+                              lowerName.includes("java") ||
+                              lowerName.includes("programming") ||
+                              lowerName.includes("coding") ||
+                              lowerName.includes("development")
+                            ) {
+                              return "bg-green-100 text-green-800 border border-green-200";
+                            } else if (
+                              lowerName.includes("management") ||
+                              lowerName.includes("leadership") ||
+                              lowerName.includes("project") ||
+                              lowerName.includes("planning")
+                            ) {
+                              return "bg-blue-100 text-blue-800 border border-blue-200";
+                            } else if (
+                              lowerName.includes("marketing") ||
+                              lowerName.includes("sales") ||
+                              lowerName.includes("communication") ||
+                              lowerName.includes("presentation")
+                            ) {
+                              return "bg-yellow-100 text-yellow-800 border border-yellow-200";
+                            } else {
+                              return "bg-red-100 text-red-800 border border-red-200";
+                            }
+                          };
+
+                          const skillColor = getSkillColor(skill.name);
+
+                          return (
+                            <Card
+                              key={skill.id}
+                              className="overflow-hidden border-l-4"
+                              style={{
+                                borderLeftColor: skillColor.includes("green")
+                                  ? "#16a34a"
+                                  : skillColor.includes("blue")
+                                  ? "#2563eb"
+                                  : skillColor.includes("yellow")
+                                  ? "#ca8a04"
+                                  : "#dc2626",
+                              }}
+                            >
+                              <CardHeader className="pb-2 flex flex-row items-center justify-between">
+                                <div>
+                                  <CardTitle className="text-base font-medium">
+                                    {skill.name}
+                                  </CardTitle>
+                                </div>
+                                <Badge className={skillColor}>
+                                  {skillColor.includes("green")
+                                    ? "Technical"
+                                    : skillColor.includes("blue")
+                                    ? "Management"
+                                    : skillColor.includes("yellow")
+                                    ? "Business"
+                                    : "Other"}
+                                </Badge>
+                              </CardHeader>
+                              <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                  {skill.description}
+                                </p>
+                              </CardContent>
+                            </Card>
+                          );
+                        })}
                       </div>
                     ) : (
                       <div className="text-center py-8">
@@ -369,19 +452,86 @@ export default function EmployeeDetailPage() {
                                     )}
                                   </TableCell>
                                   <TableCell>
-                                    {performance.score.toFixed(1)}
+                                    <div className="flex items-center">
+                                      <div
+                                        className="w-8 h-8 rounded-full mr-2 flex items-center justify-center font-medium"
+                                        style={{
+                                          backgroundColor:
+                                            performance.score >= 90
+                                              ? "#dcfce7" // green bg
+                                              : performance.score >= 75
+                                              ? "#dbeafe" // blue bg
+                                              : performance.score >= 60
+                                              ? "#fef9c3" // yellow bg
+                                              : "#fee2e2", // red bg
+                                          color:
+                                            performance.score >= 90
+                                              ? "#166534" // green text
+                                              : performance.score >= 75
+                                              ? "#1e40af" // blue text
+                                              : performance.score >= 60
+                                              ? "#854d0e" // yellow text
+                                              : "#b91c1c", // red text
+                                          border: `1px solid ${
+                                            performance.score >= 90
+                                              ? "#bbf7d0" // green border
+                                              : performance.score >= 75
+                                              ? "#bfdbfe" // blue border
+                                              : performance.score >= 60
+                                              ? "#fef08a" // yellow border
+                                              : "#fecaca" // red border
+                                          }`,
+                                        }}
+                                      >
+                                        {performance.score.toFixed(1)}
+                                      </div>
+                                    </div>
                                   </TableCell>
                                   <TableCell>
-                                    <Badge
-                                      className={`${rating.color} text-white`}
-                                    >
+                                    <Badge className={rating.color}>
+                                      <span className="mr-1">
+                                        {rating.icon}
+                                      </span>
                                       {rating.label}
                                     </Badge>
                                   </TableCell>
                                   <TableCell className="max-w-xs">
-                                    <p className="text-sm line-clamp-2">
-                                      {performance.feedback}
-                                    </p>
+                                    <div className="relative">
+                                      <p className="text-sm line-clamp-2">
+                                        {performance.feedback}
+                                      </p>
+                                      {performance.feedback &&
+                                        performance.feedback.length > 100 && (
+                                          <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-xs text-primary mt-1 h-auto p-0"
+                                            onClick={() => {
+                                              toast.info(
+                                                <div className="max-w-lg">
+                                                  <h4 className="text-base font-medium mb-1">
+                                                    Performance Feedback
+                                                  </h4>
+                                                  <p className="text-sm">
+                                                    {performance.feedback}
+                                                  </p>
+                                                  <p className="text-xs text-muted-foreground mt-2">
+                                                    {format(
+                                                      new Date(
+                                                        performance.evaluation_date
+                                                      ),
+                                                      "MMMM d, yyyy"
+                                                    )}
+                                                  </p>
+                                                </div>,
+                                                { duration: 8000 }
+                                              );
+                                            }}
+                                          >
+                                            Read full feedback
+                                          </Button>
+                                        )}
+                                    </div>
                                   </TableCell>
                                 </TableRow>
                               );
