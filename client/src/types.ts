@@ -83,3 +83,19 @@ export interface AddEmployeeSkillData {
   employee_id: number;
   skill_id: number;
 }
+
+//? DepartmentData
+// Department types
+export interface Department {
+  id: number;
+  name: string;
+  location: string;
+  createdAt: string;
+  updatedAt: string;
+  Employees?: Employee[];
+}
+
+export interface CreateDepartmentData {
+  name: string;
+  location: string;
+}
