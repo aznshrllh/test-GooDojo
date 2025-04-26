@@ -20,6 +20,7 @@ import {
   ArrowDownZA,
   Hash,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import {
   getAllSkills,
@@ -92,6 +93,7 @@ interface SortOption {
 }
 
 export default function SkillsPage() {
+  const router = useRouter();
   const [skills, setSkills] = useState<SkillWithEmployees[]>([]);
   const [filteredSkills, setFilteredSkills] = useState<SkillWithEmployees[]>(
     []
@@ -657,6 +659,15 @@ export default function SkillsPage() {
                           >
                             <Pencil size={14} className="mr-2" />
                             Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              router.push(`/skills/employee?id=${skill.id}`)
+                            }
+                            className="flex items-center cursor-pointer"
+                          >
+                            <Users size={14} className="mr-2" />
+                            Assign to Employees
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => handleDeleteSetup(skill)}

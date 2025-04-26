@@ -39,9 +39,10 @@ services:
       - /app/node_modules
     command: >
       sh -c "
-        npx sequelize-cli db:migrate &&
-        npx sequelize-cli db:seed:all &&
-        npm run dev
+      npx sequelize-cli db:create --env development || true &&
+      npx sequelize-cli db:migrate &&
+      npx sequelize-cli db:seed:all &&
+      npm run dev
       "
 
   client:
@@ -61,6 +62,12 @@ services:
 
 volumes:
   postgres_data:
+    # Add this line to make the volume temporary
+    name: postgres_data_temp
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
 
 networks:
   default:
