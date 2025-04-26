@@ -113,3 +113,13 @@ export interface CreateJobPositionData {
   title: string;
   department_id: number;
 }
+
+//? SkillData
+export interface SkillWithEmployees extends Skill {
+  Employees?: Employee[];
+}
+
+export interface CreateSkillData {
+  name: string;
+  description: string;
+}
